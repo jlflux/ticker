@@ -31,6 +31,7 @@
     nameStyle: 'short', showLogos: true, showRecords: false, showRankings: true,
     title: 'SCORES', accentColor: '#d50a0a', winnerColor: '#ffd200',
     hideWhenEmpty: false, emptyMessage: 'No games scheduled',
+    layout: 'corner', corner: 'top-left', edgeMargin: 40,
   };
   const cfg = Object.assign({}, DEFAULTS, window.TICKER_CONFIG || {});
   const q = new URLSearchParams(location.search);
@@ -45,6 +46,7 @@
     showRankings: ['rankings', bool], title: ['title', String],
     accentColor: ['accent', String], winnerColor: ['winner', String],
     hideWhenEmpty: ['hideempty', bool], emptyMessage: ['empty', String],
+    layout: ['layout', String], corner: ['corner', String], edgeMargin: ['margin', Number],
   };
   for (const [key, [param, parse]] of Object.entries(URL_OPTS)) {
     if (q.has(param)) cfg[key] = parse(q.get(param));
@@ -58,6 +60,12 @@
 
   document.documentElement.style.setProperty('--accent', cfg.accentColor);
   document.documentElement.style.setProperty('--winner', cfg.winnerColor);
+  document.documentElement.style.setProperty('--edge', `${cfg.edgeMargin}px`);
+  // 'corner' = compact score bug in a corner of the screen; 'bar' = full-width bottom bar.
+  const corner = String(cfg.corner).toLowerCase();
+  if (String(cfg.layout).toLowerCase() === 'corner') {
+    document.body.classList.add('corner', /^(top|bottom)-(left|right)$/.test(corner) ? corner : 'top-left');
+  }
 
   // ── Feed list ──────────────────────────────────────────────────────────────
   const feeds = [];

@@ -195,3 +195,62 @@ html, body {
   color: var(--muted);
   padding-left: calc(var(--bar-height) * 0.3);
 }
+
+/* ── Corner layout (layout: 'corner') ─────────────────────────────────────────
+   A compact score bug: league tab on top, away over home, status at right. */
+body.corner { --bar-height: 50px; --corner-width: 470px; }
+
+body.corner #bar {
+  left: var(--edge);
+  right: auto;
+  bottom: auto;
+  top: var(--edge);
+  width: var(--corner-width);
+  height: auto;
+  flex-direction: column;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+}
+body.corner.top-right #bar, body.corner.bottom-right #bar { left: auto; right: var(--edge); }
+body.corner.bottom-left #bar, body.corner.bottom-right #bar { top: auto; bottom: var(--edge); }
+body.corner.top-left #bar.hidden, body.corner.bottom-left #bar.hidden { transform: translateX(calc(-100% - var(--edge) - 20px)); }
+body.corner.top-right #bar.hidden, body.corner.bottom-right #bar.hidden { transform: translateX(calc(100% + var(--edge) + 20px)); }
+
+body.corner #label {
+  align-self: flex-start;
+  min-width: 0;
+  height: calc(var(--bar-height) * 0.62);
+  margin: 0;
+  padding: 0 calc(var(--bar-height) * 0.6) 0 calc(var(--bar-height) * 0.3);
+  font-size: calc(var(--bar-height) * 0.4);
+  clip-path: polygon(0 0, calc(100% - var(--bar-height) * 0.3) 0, 100% 100%, 0 100%);
+}
+
+body.corner #stage {
+  flex: 0 0 auto;
+  height: calc(var(--bar-height) * 2);
+  border-top: 3px solid var(--accent);
+}
+
+body.corner .card {
+  display: grid;
+  grid-template-columns: 1fr calc(var(--bar-height) * 2.2);
+  grid-template-rows: 1fr 1fr;
+  padding: 0;
+}
+body.corner .team {
+  grid-column: 1;
+  border-left: none;
+  padding: 0 calc(var(--bar-height) * 0.15) 0 calc(var(--bar-height) * 0.25);
+}
+body.corner .team + .team { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+body.corner .stripe { height: 64%; }
+body.corner .status {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  border-right: none;
+}
+body.corner .message {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  padding-left: calc(var(--bar-height) * 0.35);
+}

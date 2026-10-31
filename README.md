@@ -1,12 +1,14 @@
 # Score Ticker for OBS
 
-![Ticker preview](preview.png)
+![Corner score box](preview.png)
 
-A score bar for the bottom of your stream, styled after ESPN's BottomLine. Instead of scrolling, it shows one game at a time and flips to the next every 5 seconds. Final scores show the winner's score in gold with an arrow, and the loser is dimmed. Live games show the quarter and clock with a red "live" dot. When a score changes while that game is on screen, the score flashes.
+A score box for your stream, styled after ESPN's BottomLine. By default it sits in the **top-left corner**, and one setting turns it into a full-width bar along the bottom (pictured below). Instead of scrolling, it shows one game at a time and flips to the next every 5 seconds. Final scores show the winner's score in gold with an arrow, and the loser is dimmed. Live games show the quarter and clock with a red "live" dot. When a score changes while that game is on screen, the score flashes.
 
 It's built for **Alabama high school football**. Scores come from a Google Sheet that you or a helper update from a phone, and the ticker re-reads the sheet every 20 seconds. It can also pull college and pro scores from ESPN automatically, for example Alabama and Auburn on Saturdays.
 
 Preview it with sample games by opening `index.html?demo=1` in a browser.
+
+![Bottom bar layout](preview-bar.png)
 
 ---
 
@@ -15,7 +17,7 @@ Preview it with sample games by opening `index.html?demo=1` in a browser.
 1. Download this folder (green **Code** button → **Download ZIP**) and unzip it somewhere permanent, like `Documents\ScoreTicker`.
 2. In OBS, under **Sources**, click **+** → **Browser**, and name it "Score Ticker".
 3. Check **Local file** and browse to `index.html` in the folder.
-4. Set **Width 1920** and **Height 1080** (or match your canvas). The page is transparent, so only the bar at the bottom shows.
+4. Set **Width 1920** and **Height 1080** (or match your canvas). The page is transparent, so only the score box shows. Leave the source at full-screen size: the box positions itself in the corner.
 5. Click **OK**, then put the source at the top of the source list so it sits above your video.
 
 To try the look before setting up the sheet, uncheck **Local file** and paste this as the URL, with your own folder path:
@@ -88,14 +90,17 @@ ESPN games and sheet games can run together. ESPN games come first, then the she
 
 Everything is in `config.js`, with a comment next to each setting:
 
+- `layout` is `'corner'` (the compact box, default) or `'bar'` (full width along the bottom).
+- `corner` picks which corner: `'top-left'` (default), `'top-right'`, `'bottom-left'` or `'bottom-right'`.
+- `edgeMargin` is the gap between the box and the screen edges, in pixels (default 40, which keeps it inside the TV-safe area). Set it to `0` to sit flush in the corner.
 - `secondsPerGame` is how long each score stays up (default 5).
 - `refreshSeconds` is how often the ticker re-downloads scores (default 20).
 - `accentColor` and `winnerColor` control the label color and the winning-score highlight. Try your station or school colors.
 - `showUpcoming`, `showRankings`, `showRecords` and `showLogos` turn pieces on or off.
 - `hideWhenEmpty: true` slides the bar off screen when there are no games.
-- To change the size, edit `--bar-height` at the top of `ticker.css` (default `64px`), or just resize the source in OBS.
+- To change the size, resize the source in OBS, or edit `--bar-height` in `ticker.css` (`64px` for the bar; the corner box uses `50px` per team row in the `body.corner` section).
 
-You can also override any setting in the URL without editing files, for example `index.html?seconds=7&title=FRIDAY%20NIGHT`. Supported parameters: `leagues`, `teams`, `sheet`, `sheetlabel`, `seconds`, `refresh`, `upcoming`, `logos`, `records`, `rankings`, `names`, `title`, `accent`, `winner`, `hideempty` and `demo`.
+You can also override any setting in the URL without editing files, for example `index.html?seconds=7&title=FRIDAY%20NIGHT`. Supported parameters: `leagues`, `teams`, `sheet`, `sheetlabel`, `seconds`, `refresh`, `upcoming`, `logos`, `records`, `rankings`, `names`, `title`, `accent`, `winner`, `hideempty`, `layout`, `corner`, `margin` and `demo`.
 
 ## Troubleshooting
 

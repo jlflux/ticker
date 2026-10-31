@@ -25,6 +25,11 @@ window.TICKER_CONFIG = {
   // school name like 'Auburn'). Empty = every game in the chosen leagues.
   teams: [],
 
+  // ── Where it sits ─────────────────────────────────────────────────────────
+  layout: 'corner',         // 'corner' = compact score box, 'bar' = full-width bar along the bottom
+  corner: 'top-left',       // for layout 'corner': 'top-left', 'top-right', 'bottom-left', 'bottom-right'
+  edgeMargin: 40,           // for layout 'corner': gap (pixels) between the box and the screen edges
+
   secondsPerGame: 5,        // how long each score stays up
   refreshSeconds: 20,       // how often scores are re-downloaded (10 minimum)
 
